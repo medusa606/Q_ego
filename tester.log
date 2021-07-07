@@ -1,0 +1,17 @@
+distance,distance_x,distance_y,inverse_distance
+0.0,0.0,0.0,0.0
+distance,distance_x,distance_y,heading,inverse_distance
+0.0,0.0,0.0,0.0,0.0
+distance,distance_x,distance_y,heading,inverse_distance,on_road,relative_angle
+0.0,0.0,0.0,0.0,0.0,0.0,0.0
+
+
+
+distance
+0.0
+distance
+0.0
+distance
+0.0
+distance
+0.0

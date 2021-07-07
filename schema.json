@@ -1,0 +1,282 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "verbosity": {
+            "type": "string",
+            "enum": [ "info", "debug", "silent" ]
+        },
+        "episode_log": {
+            "oneOf": [
+                { "type": "string" },
+                { "type": "null" }
+            ]
+        },
+        "run_log": {
+            "oneOf": [
+                { "type": "string" },
+                { "type": "null" }
+            ]
+        },
+        "seed": {
+            "oneOf": [
+                {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                { "type": "null" }
+            ]
+        },
+        "episodes": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "max_timesteps": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "terminate_collisions": {
+            "oneOf": [
+                { "const": "none" },
+                { "const": "ego" },
+                { "const": "all" }
+            ]
+        },
+        "terminate_ego_zones": { "type": "boolean" },
+        "terminate_ego_offroad": { "type": "boolean" },
+        "reward_win": { "type": "number" },
+        "reward_draw": { "type": "number" },
+        "cost_step": { "type": "number" },
+        "scenario_config": {
+            "oneOf": [
+                { "$ref": "#/definitions/bus_stop_config" },
+                { "$ref": "#/definitions/crossroads_config" },
+                { "$ref": "#/definitions/pedestrians_config" },
+                { "$ref": "#/definitions/pelican_crossing_config" }
+            ]
+        },
+        "ego_config": {
+            "oneOf": [
+                { "$ref": "#/definitions/noop_config" },
+                { "$ref": "#/definitions/keyboard_config" },
+                { "$ref": "#/definitions/random_config" },
+                { "$ref": "#/definitions/q_learning_config" }
+            ]
+        },
+        "tester_config": {
+            "oneOf": [
+                { "$ref": "#/definitions/noop_config" },
+                { "$ref": "#/definitions/random_config" },
+                { "$ref": "#/definitions/random_constrained_config" },
+                { "$ref": "#/definitions/proximity_config" },
+                { "$ref": "#/definitions/election_config" },
+                { "$ref": "#/definitions/q_learning_config" }
+            ]
+        },
+        "mode_config": {
+            "oneOf": [
+                { "$ref": "#/definitions/headless_config" },
+                { "$ref": "#/definitions/render_config" }
+            ]
+        }
+    },
+    "required": [ "verbosity", "episode_log", "run_log", "seed", "episodes", "max_timesteps", "terminate_collisions", "terminate_ego_zones", "terminate_ego_offroad", "reward_win", "reward_draw", "cost_step", "scenario_config", "ego_config", "tester_config", "mode_config" ],
+    "additionalProperties": false,
+    "definitions": {
+        "bus_stop_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "bus-stop" }
+            },
+            "required": [ "option" ],
+            "additionalProperties": false
+        },
+        "crossroads_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "crossroads" }
+            },
+            "required": [ "option" ],
+            "additionalProperties": false
+        },
+        "pedestrians_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "pedestrians" },
+                "num_pedestrians": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "outbound_pavement": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "inbound_pavement": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "required": [ "option", "num_pedestrians", "outbound_pavement", "inbound_pavement" ],
+            "additionalProperties": false
+        },
+        "pelican_crossing_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "pelican-crossing" }
+            },
+            "required": [ "option" ],
+            "additionalProperties": false
+        },
+        "noop_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "noop" }
+            },
+            "required": [ "option" ],
+            "additionalProperties": false
+        },
+        "keyboard_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "keyboard" }
+            },
+            "required": [ "option" ],
+            "additionalProperties": false
+        },
+        "random_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "random" },
+                "epsilon": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "required": [ "option", "epsilon" ],
+            "additionalProperties": false
+        },
+        "random_constrained_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "random-constrained" },
+                "epsilon": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "required": [ "option", "epsilon" ],
+            "additionalProperties": false
+        },
+        "proximity_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "proximity" },
+                "threshold": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                }
+            },
+            "required": [ "option", "threshold" ],
+            "additionalProperties": false
+        },
+        "election_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "election" },
+                "threshold": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                }
+            },
+            "required": [ "option", "threshold" ],
+            "additionalProperties": false
+        },
+        "feature_config": {
+            "type": "object",
+            "properties": {
+                "distance_x": { "type": "boolean" },
+                "distance_y": { "type": "boolean" },
+                "distance": { "type": "boolean" },
+                "relative_angle": { "type": "boolean" },
+                "heading": { "type": "boolean" },
+                "on_road": { "type": "boolean" },
+                "inverse_distance": { "type": "boolean" }
+            },
+            "required": [ "distance_x", "distance_y", "distance", "relative_angle", "heading", "on_road", "inverse_distance" ],
+            "additionalProperties": false
+        },
+        "q_learning_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "q-learning" },
+                "alpha": {
+                    "start": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "stop": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "num_steps": {
+                        "type": "integer",
+                        "minimum": 2
+                    }
+                },
+                "gamma": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "epsilon": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "feature_config": {
+                    "$ref": "#/definitions/feature_config"
+                },
+                "log": {
+                    "oneOf": [
+                        { "type": "string" },
+                        { "type": "null" }
+                    ]
+                }
+            },
+            "required": [ "option", "alpha", "gamma", "epsilon", "feature_config", "log" ],
+            "additionalProperties": false
+        },
+        "headless_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "headless" }
+            },
+            "required": [ "option" ],
+            "additionalProperties": false
+        },
+        "render_config": {
+            "type": "object",
+            "properties": {
+                "option": { "const": "render" },
+                "episode_condition": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "video_dir": {
+                    "oneOf": [
+                        { "type": "string" },
+                        { "type": "null" }
+                    ]
+                }
+            },
+            "required": [ "option", "episode_condition", "video_dir" ],
+            "additionalProperties": false
+        }
+    }
+}

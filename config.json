@@ -1,0 +1,48 @@
+{
+  "verbosity": "info",
+  "episode_log": null,
+  "run_log": null,
+  "seed": 0,
+  "episodes": 250,
+  "max_timesteps": 1000,
+  "terminate_collisions": "ego",
+  "terminate_ego_zones": true,
+  "terminate_ego_offroad": false,
+  "reward_win": 6000.0,
+  "reward_draw": 2000.0,
+  "cost_step": 4.0,
+  "scenario_config": {
+    "option": "pedestrians",
+    "num_pedestrians": 1,
+    "outbound_pavement": 1.0,
+    "inbound_pavement": 1.0
+  },
+
+  "ego_config": {
+    "option": "q-learning",
+    "alpha":{
+      "start": 0.8,
+      "stop": 0.1,
+      "num_steps": 10000 },
+    "gamma": 0.5,
+    "epsilon": 0.1,
+    "feature_config": {
+      "distance_x": true,
+      "distance_y": false,
+      "distance": true,
+      "relative_angle": true,
+      "heading": false,
+      "on_road": false,
+      "inverse_distance": false},
+    "log": "ego_log" },
+
+  "tester_config": {
+    "option": "random-constrained",
+    "epsilon": 0.1 },
+
+  "mode_config": {
+    "option": "render",
+    "episode_condition": 250,
+    "video_dir": "videos"
+  }
+}
